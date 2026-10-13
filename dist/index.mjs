@@ -13595,7 +13595,7 @@ var FINISH_ACCENT = {
 // src/render/card.ts
 var W = 360;
 var H = 540;
-var SHIELD = "M0,66 C28,66 52,54 70,36 C90,22 126,22 150,14 L180,0 L210,14 C234,22 270,22 290,36 C308,54 332,66 360,66 L360,430 C360,462 338,480 306,492 C262,508 214,516 180,540 C146,516 98,508 54,492 C22,480 0,462 0,430 Z";
+var SHIELD = "M0,66 C28,66 52,54 70,36 C90,22 126,22 150,14 L180,0 L210,14 C234,22 270,22 290,36 C308,54 332,66 360,66 L360,462 C360,488 342,500 312,508 C268,520 214,526 180,540 C146,526 92,520 48,508 C18,500 0,488 0,462 Z";
 var inset = (i) => `translate(${i} ${i}) scale(${((W - 2 * i) / W).toFixed(4)} ${((H - 2 * i) / H).toFixed(4)})`;
 var STAT_ROWS = [
   ["pac", "PAC", "dri", "DRI"],
@@ -13654,7 +13654,7 @@ function cardBody(i) {
          <animate attributeName="x" values="-260;520;520" keyTimes="0;0.32;1" dur="8s" begin="1.5s" repeatCount="indefinite"/>
        </rect>` : "";
   const stats = STAT_ROWS.map(([lk, ll, rk, rl], r) => {
-    const y = 424 + r * 40;
+    const y = 414 + r * 38;
     const num = { weight: "extrabold", size: 37, fill: t.ink };
     const lab = { weight: "medium", size: 32, fill: t.label };
     return text(String(card.stats[lk]), 116, y, { ...num, anchor: "end" }) + text(ll, 124, y, lab) + text(String(card.stats[rk]), 238, y, { ...num, anchor: "end" }) + text(rl, 246, y, lab);
@@ -13683,11 +13683,11 @@ function cardBody(i) {
   ${images.flag ? `<image href="${images.flag}" x="53" y="190" width="54" height="36" preserveAspectRatio="xMidYMid slice"/>` : ""}
   ${images.flag && images.logo ? `<line x1="56" y1="236" x2="104" y2="236" stroke="${t.rule}" stroke-opacity="0.7"/>` : ""}
   ${images.logo ? `<image href="${images.logo}" x="56" y="${images.flag ? 246 : 192}" width="48" height="48"/>` : ""}
-  ${text(firstName, W / 2, 364, { weight: "bold", size: 52, fill: t.ink, anchor: "middle", tracking: 1, maxWidth: 270 })}
-  <line x1="46" y1="382" x2="${W - 46}" y2="382" stroke="${t.rule}" stroke-opacity="0.6"/>
+  ${text(firstName, W / 2, 356, { weight: "bold", size: 52, fill: t.ink, anchor: "middle", tracking: 1, maxWidth: 270 })}
+  <line x1="46" y1="373" x2="${W - 46}" y2="373" stroke="${t.rule}" stroke-opacity="0.6"/>
   ${stats}
-  <line x1="${W / 2}" y1="396" x2="${W / 2}" y2="506" stroke="${t.rule}" stroke-opacity="0.6"/>
-  <line x1="${W / 2 - 22}" y1="520" x2="${W / 2 + 22}" y2="520" stroke="${t.rule}" stroke-opacity="0.6"/>`;
+  <line x1="${W / 2}" y1="386" x2="${W / 2}" y2="492" stroke="${t.rule}" stroke-opacity="0.6"/>
+  <line x1="${W / 2 - 22}" y1="510" x2="${W / 2 + 22}" y2="510" stroke="${t.rule}" stroke-opacity="0.6"/>`;
 }
 function footer(i, x, y) {
   const o = { weight: "semibold", size: 15, fill: "#c9a85a", tracking: 1.6 };
