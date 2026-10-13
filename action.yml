@@ -1,0 +1,77 @@
+name: "fullpitch — GitHub player card (public + private)"
+description: "A football-style player card scored from ALL your GitHub work, private contributions included, rendered to an SVG for your profile README."
+author: "DavidSanSan110"
+branding:
+  icon: "award"
+  color: "green"
+
+inputs:
+  token:
+    description: "Token of the profile owner. A classic PAT with `repo` + `read:user` (+ `read:org`) lets the card see private work. GITHUB_TOKEN works too, but only sees public data."
+    required: true
+  username:
+    description: "GitHub login to card. Defaults to the repository owner."
+    required: false
+    default: ${{ github.repository_owner }}
+  output:
+    description: "Path of the SVG to write."
+    required: false
+    default: "fullpitch-card.svg"
+  json_output:
+    description: "Optional path for a JSON dump of the card, signals and data sources (handy for auditing the score)."
+    required: false
+    default: ""
+  layout:
+    description: "`banner` (1200×630, card + details) or `card` (400×600, card only)."
+    required: false
+    default: "banner"
+  theme:
+    description: "`auto` (follows the card tier), `navy`, `gold`, `silver`, `bronze` or `black`."
+    required: false
+    default: "auto"
+  include_private:
+    description: "Count private repos, PRs, reviews and contributions when the token belongs to the user."
+    required: false
+    default: "true"
+  public_calendar_floor:
+    description: "Never report fewer contributions than your public profile calendar shows (recovers work in orgs your token can't see)."
+    required: false
+    default: "true"
+  language_ranking:
+    description: "How the headline language is picked: `repos` (repo count, like Gitwork/GitFut) or `commits` (weighted by last year's commits)."
+    required: false
+    default: "repos"
+  top_language:
+    description: "Override the language shown on the card (logo + sentence). Scoring is unaffected."
+    required: false
+    default: ""
+  country:
+    description: "ISO 3166 alpha-2 code for the flag (e.g. `es`). Defaults to a guess from your profile location; leave unset and no location → no flag."
+    required: false
+    default: ""
+  animate:
+    description: "Add a subtle shine sweep across the card (SVG animation)."
+    required: false
+    default: "true"
+  commit:
+    description: "Commit and push the generated files (needs `contents: write` and a prior actions/checkout)."
+    required: false
+    default: "true"
+  commit_message:
+    description: "Commit message used when `commit` is on."
+    required: false
+    default: "Update fullpitch card [skip ci]"
+
+outputs:
+  overall:
+    description: "Overall rating (OVR)."
+  position:
+    description: "Position, e.g. CM."
+  finish:
+    description: "Card tier: bronze, silver, gold, totw (in-form), toty, icon."
+  path:
+    description: "Path of the written SVG."
+
+runs:
+  using: "node24"
+  main: "dist/index.mjs"

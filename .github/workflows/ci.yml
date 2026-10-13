@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: dist/ is up to date
+        run: git diff --exit-code -- dist || { echo "::error::dist/ is stale. Run 'npm run build' and commit it."; exit 1; }
+
+  smoke:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Run the action (public data via GITHUB_TOKEN)
+        id: card
+        uses: ./
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          output: out/smoke.svg
+          json_output: out/smoke.json
+          commit: false
+      - run: 'echo "OVR ${{ steps.card.outputs.overall }} ${{ steps.card.outputs.position }} (${{ steps.card.outputs.finish }})"'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: smoke-card
+          path: out/

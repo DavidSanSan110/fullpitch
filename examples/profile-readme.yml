@@ -1,0 +1,25 @@
+# Copy to <you>/<you>/.github/workflows/fullpitch.yml
+# Needs a secret FULLPITCH_TOKEN: classic PAT with repo, read:user, read:org.
+name: fullpitch card
+
+on:
+  schedule:
+    - cron: "30 3 * * *" # daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  card:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: DavidSanSan110/fullpitch@v1
+        with:
+          token: ${{ secrets.FULLPITCH_TOKEN }}
+          # theme: navy          # auto | navy | gold | silver | bronze | black
+          # layout: banner       # banner | card
+          # top_language: Python # override the headline language
+          # json_output: fullpitch-card.json
